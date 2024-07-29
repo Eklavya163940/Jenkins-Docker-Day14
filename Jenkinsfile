@@ -5,6 +5,7 @@ pipeline{
     environment{
         dockerImage = ''
         registry = 'eklavya163940/jenkins-docker'
+        registryCredentials = 'dockerhub-credentials'
     }
 
     stages{
@@ -15,5 +16,15 @@ pipeline{
                 }
             }
         }
+        stage('Push Docker Image'){
+            steps{
+                script{
+                    docker.withRegistry('https://hub.docker.com/', registryCredentials){
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
     }
 }
+ 
